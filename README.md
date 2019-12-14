@@ -87,7 +87,7 @@ Here is list of tasks that I am planning to implement in the future -
 * Faster NMS code.
 * Add bootstrapping (Hard Negative Mining) code.
 
-##My share !
+## My share !
 
 * Support for python3 
 ### Future work 
