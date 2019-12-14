@@ -11,7 +11,7 @@ cd object-detector/bin
 test-object-detector
 ```
 
-_The `test-object-detector` will download the [UIUC Image Database for Car Detection](https://cogcomp.cs.illinois.edu/Data/Car/) and train a classifier to detect cars in an image. The SVM model files will be stored in `data/models`, so that they can be resused later on._
+_The `test-object-detector` needs positive/negative images and a test image to work properly . The SVM model files will be stored in `data/models`, so that they can be resused later on._
 
 ### Configuration File
 
@@ -86,6 +86,14 @@ Here is list of tasks that I am planning to implement in the future -
 * Optimize code to use more `numpy` vectorized codes.
 * Faster NMS code.
 * Add bootstrapping (Hard Negative Mining) code.
+
+##My share !
+
+* Support for python3 
+### Future work 
+
+* Remove joblib in favor of pickle .
+* More funcionalities
 
 
 ## Useful tutorials
