@@ -6,7 +6,7 @@ Object Detector using HOG as descriptor and Linear SVM as classifier. | [Video](
 I have created a single python script that can be used to test the code. To test the code, run the lines below in your terminal.
 
 ```shell
-git clone https://github.com/bikz05/object-detector.git
+git clone https://github.com/pedrooct/object-detector
 cd object-detector/bin
 test-object-detector
 ```
