@@ -1,17 +1,27 @@
 #!/usr/bin/python3
-import os
+import os,glob
+import time
 
+start_time = time.time()
+# your code
 
 # Extract the features
-pos_path = "../data/dataset/CarData/pos"
-neg_path = "../data/dataset/CarData/neg"
-os.system("python3 ../object-detector/extract-features.py -p {} -n {}".format(pos_path, neg_path))
+pos_path = "../data/dataset/humanData/pos_standard"
+neg_path = "../data/dataset/humanData/neg_standard"
+#os.system("python3 ../object-detector/extract-features.py -p {} -n {}".format(pos_path, neg_path))
+
+print("Time: "+str(time.time() - start_time))
 
 # Perform training
 pos_feat_path =  "../data/features/pos"
 neg_feat_path =  "../data/features/neg"
-os.system("python3 ../object-detector/train-classifier.py -p {} -n {}".format(pos_feat_path, neg_feat_path))
+#os.system("python3 ../object-detector/train-classifier.py -p {} -n {}".format(pos_feat_path, neg_feat_path))
+
+print("Time: "+str(time.time() - start_time))
 
 # Perform testing 
-test_im_path = "../data/dataset/CarData/TestImages/frame544.jpg"
-os.system("python3 ../object-detector/test-classifier.py -i {} --visualize".format(test_im_path))
+#test_im_path = "../data/dataset/CarData/TestImages/frame544.jpg"  img_frame544_256_320.png 
+#test_im_path = "../data/dataset/CarData/TestImages/img_frame544_192_0.png"
+for file in glob.glob("../data/dataset/humanData/Test_image/*.jpg"):
+	val=os.system("python3 ../object-detector/test-classifier.py -i {} --visualize -s 1 -t 3000".format(file))
+print("Time: "+str(time.time() - start_time))

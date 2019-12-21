@@ -7,11 +7,12 @@ import cv2
 import argparse as ap
 from nms import nms
 from config import *
+import sys,time
 
 def sliding_window(image, window_size, step_size):
     '''
     This function returns a patch of the input image `image` of size equal
-    to `window_size`. The first image returned top-left co-ordinates (0, 0) 
+    to `window_size`. The first image returned top-left co-ordinates (0, 0)
     and are increment in both x and y directions by the `step_size` supplied.
     So, the input parameters are -
     * `image` - Input Image
@@ -33,18 +34,21 @@ if __name__ == "__main__":
     # Parse the command line arguments
     parser = ap.ArgumentParser()
     parser.add_argument('-i', "--image", help="Path to the test image", required=True)
-    parser.add_argument('-d','--downscale', help="Downscale ratio", default=1.1,
+    parser.add_argument('-d','--downscale', help="Downscale ratio", default=1.3,
             type=int)
     parser.add_argument('-v', '--visualize', help="Visualize the sliding window",
             action="store_true")
+    parser.add_argument('-s', '--scale', help="Scales a image a number of times",default=-1)
+    parser.add_argument('-t', '--timer', help="Time to move on",default=-1)
     args = vars(parser.parse_args())
 
     # Read the image
     im = imread(args["image"],as_gray=True)
-    min_wdw_sz = (32, 32)
-    step_size = (32, 32)
+    min_wdw_sz = (100,250)
+    step_size = (100, 250)
     downscale = args['downscale']
     visualize_det = args['visualize']
+    timer = int(args["timer"])
 
     # Load the classifier
     clf = joblib.load(model_path)
@@ -56,6 +60,9 @@ if __name__ == "__main__":
     # Downscale the image and iterate
     for im_scaled in pyramid_gaussian(im, downscale=downscale):
         # This list contains detections at the current scale
+        if int(args["scale"])!=-1 and scale > int(args["scale"]):
+             break
+
         cd = []
         # If the width or height of the scaled image is less than
         # the width or height of the window, then end the iterations.
@@ -89,20 +96,26 @@ if __name__ == "__main__":
         # Move the the next scale
         scale+=1
 
+    detections = nms(detections, threshold)
+    print("detections:"+str(len(detections)))
     # Display the results before performing NMS
     clone = im.copy()
     for (x_tl, y_tl, _, w, h) in detections:
         # Draw the detections
         cv2.rectangle(im, (x_tl, y_tl), (x_tl+w, y_tl+h), (0, 0, 0), thickness=2)
     cv2.imshow("Raw Detections before NMS", im)
-    cv2.waitKey()
+    if timer!=-1:
+         cv2.waitKey(timer)
+    else:
+         cv2.waitKey()
 
     # Perform Non Maxima Suppression
-    detections = nms(detections, threshold)
-
     # Display the results after performing NMS
     for (x_tl, y_tl, _, w, h) in detections:
         # Draw the detections
         cv2.rectangle(clone, (x_tl, y_tl), (x_tl+w,y_tl+h), (0, 0, 0), thickness=2)
     cv2.imshow("Final Detections after applying NMS", clone)
-    cv2.waitKey()
+    if timer!=-1:
+         cv2.waitKey(timer)
+    else:
+         cv2.waitKey()
