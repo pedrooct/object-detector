@@ -6,12 +6,12 @@ Object Detector using HOG as descriptor and Linear SVM as classifier. | [Video](
 I have created a single python script that can be used to test the code. To test the code, run the lines below in your terminal.
 
 ```shell
-git clone https://github.com/pedrooct/object-detector
+git clone https://github.com/bikz05/object-detector.git
 cd object-detector/bin
 test-object-detector
 ```
 
-_The `test-object-detector` needs positive/negative images and a test image to work properly . The SVM model files will be stored in `data/models`, so that they can be resused later on._
+_The `test-object-detector` will download the [UIUC Image Database for Car Detection](https://cogcomp.cs.illinois.edu/Data/Car/) and train a classifier to detect cars in an image. The SVM model files will be stored in `data/models`, so that they can be resused later on._
 
 ### Configuration File
 
@@ -89,12 +89,14 @@ Here is list of tasks that I am planning to implement in the future -
 
 ## My share !
 
-* Support for python3 
-### Future work 
+* Support for python3
+* Timer to show images
+* The control to choose the amount of times the image is scaled
+* Hability to save image result(crop rectangle) by choosing if it's a good fit or automatic if you have a good model ! Making this piece of code auto feed itself and improve! :)
+### Future work
 
 * Remove joblib in favor of pickle .
 * More funcionalities
-
 
 ## Useful tutorials
 

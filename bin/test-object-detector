@@ -19,9 +19,10 @@ neg_feat_path =  "../data/features/neg"
 
 print("Time: "+str(time.time() - start_time))
 
-# Perform testing 
-#test_im_path = "../data/dataset/CarData/TestImages/frame544.jpg"  img_frame544_256_320.png 
+# Perform testing
+#test_im_path = "../data/dataset/CarData/TestImages/frame544.jpg"  img_frame544_256_320.png
 #test_im_path = "../data/dataset/CarData/TestImages/img_frame544_192_0.png"
+saveResults="../data/dataset/humanData/testPositiveSaveAuto/"
 for file in glob.glob("../data/dataset/humanData/Test_image/*.jpg"):
-	val=os.system("python3 ../object-detector/test-classifier.py -i {} --visualize -s 1 -t 3000".format(file))
+	val=os.system("python3 ../object-detector/test-classifier.py -i {} --visualize -s 1 -t 3000 -l 2 -pl {}".format(file,saveResults))
 print("Time: "+str(time.time() - start_time))

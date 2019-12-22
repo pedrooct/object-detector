@@ -1,6 +1,6 @@
 # Import the required modules
 from skimage.transform import pyramid_gaussian
-from skimage.io import imread
+from skimage.io import imread , imsave
 from skimage.feature import hog
 from sklearn.externals import joblib
 import cv2
@@ -38,17 +38,20 @@ if __name__ == "__main__":
             type=int)
     parser.add_argument('-v', '--visualize', help="Visualize the sliding window",
             action="store_true")
-    parser.add_argument('-s', '--scale', help="Scales a image a number of times",default=-1)
-    parser.add_argument('-t', '--timer', help="Time to move on",default=-1)
+    parser.add_argument('-s', '--scale', help="Scales a image a number of times",default=-1,type=int)
+    parser.add_argument('-t', '--timer', help="Time to move on",default=-1, type=int)
+    parser.add_argument('-l', '--learn', help="Learning level 0 - doesn't learn 1 - you decide what to learn , 2- auto-learning(use if it's good at it !!) ",default=0, type=int)
+    parser.add_argument('-pl', '--pathlearn', help="Give path if you are using learning option")
     args = vars(parser.parse_args())
 
     # Read the image
     im = imread(args["image"],as_gray=True)
     min_wdw_sz = (100,250)
-    step_size = (100, 250)
+    step_size = (80,200)
     downscale = args['downscale']
     visualize_det = args['visualize']
-    timer = int(args["timer"])
+    timer = args["timer"]
+    learn = args["learn"]
 
     # Load the classifier
     clf = joblib.load(model_path)
@@ -56,7 +59,7 @@ if __name__ == "__main__":
     # List to store the detections
     detections = []
     # The current scale of the image
-    scale = 0
+    scale = 1
     # Downscale the image and iterate
     for im_scaled in pyramid_gaussian(im, downscale=downscale):
         # This list contains detections at the current scale
@@ -119,3 +122,36 @@ if __name__ == "__main__":
          cv2.waitKey(timer)
     else:
          cv2.waitKey()
+    if learn ==1 :
+        image=args["image"].split("/")
+        imageName=image[len(image)-1].split(".")
+        pathLearn=args["pathlearn"]
+        a=input("save it ? yes(y) or no(n) or as bg? ")
+        if a =="y":
+            for (x_tl, y_tl, _, w, h) in detections:
+                imCrop = im[y_tl:y_tl+h,x_tl:x_tl+w]
+                result=cv2.imsave(f"{pathLearn}img_{imageName[0]}_{x_tl}_{y_tl}_save_1.png",imCrop)
+                if result:
+                    print("Result saved.")
+                else:
+                    print("Error ! maybe path is wrong , is folder created ?")
+        if a=="bg":
+            for (x_tl, y_tl, _, w, h) in detections:
+                imCrop = im[y_tl:y_tl+h,x_tl:x_tl+w]
+                result=cv2.imsave(f"{pathLearn}img_{imageName[0]}_{x_tl}_{y_tl}_save_1_bg.png",imCrop)
+                if result:
+                    print("Result saved.")
+                else:
+                    print("Error ! maybe path is wrong , is folder created ?")
+
+    if learn ==2:
+        image=args["image"].split("/")
+        imageName=image[len(image)-1].split(".")
+        pathLearn=args["pathlearn"]
+        for (x_tl, y_tl, _, w, h) in detections:
+            imCrop = im[y_tl:y_tl+h,x_tl:x_tl+w]
+            result=imsave(f"{pathLearn}img_{imageName[0]}_{x_tl}_{y_tl}_save_1.png",imCrop)
+            if result:
+                print("Result saved.")
+            else:
+                print("Error ! maybe path is wrong , is folder created ?")

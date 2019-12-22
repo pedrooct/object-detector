@@ -11,7 +11,7 @@ def overlapping_area(detection_1, detection_2):
     Area calculated from ->
     http://math.stackexchange.com/questions/99565/simplest-way-to-calculate-the-intersect-area-of-two-rectangles
     '''
-    # Calculate the x-y co-ordinates of the 
+    # Calculate the x-y co-ordinates of the
     # rectangles
     x1_tl = detection_1[0]
     x2_tl = detection_2[0]
@@ -53,9 +53,10 @@ def nms(detections, threshold=.3):
     del detections[0]
     # For each detection, calculate the overlapping area
     # and if area of overlap is less than the threshold set
-    # for the detections in `new_detections`, append the 
+    # for the detections in `new_detections`, append the
     # detection to `new_detections`.
     # In either case, remove the detection from `detections` list.
+    '''
     for index, detection in enumerate(detections):
         for new_detection in new_detections:
             if overlapping_area(detection, new_detection) > threshold:
@@ -64,6 +65,14 @@ def nms(detections, threshold=.3):
         else:
             new_detections.append(detection)
             del detections[index]
+    '''
+    while len(detections) > 0:
+        detection = detections.pop()
+        for new_detection in new_detections:
+            if overlapping_area(detection, new_detection) > threshold:
+                break
+            else:
+                new_detections.append(detection)
     return new_detections
 
 if __name__ == "__main__":
