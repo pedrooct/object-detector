@@ -8,14 +8,14 @@ start_time = time.time()
 # Extract the features
 pos_path = "../data/dataset/humanData/pos_standard"
 neg_path = "../data/dataset/humanData/neg_standard"
-#os.system("python3 ../object-detector/extract-features.py -p {} -n {}".format(pos_path, neg_path))
+os.system("python3 ../object-detector/extract-features.py -p {} -n {}".format(pos_path, neg_path))
 
 print("Time: "+str(time.time() - start_time))
 
 # Perform training
 pos_feat_path =  "../data/features/pos"
 neg_feat_path =  "../data/features/neg"
-#os.system("python3 ../object-detector/train-classifier.py -p {} -n {}".format(pos_feat_path, neg_feat_path))
+os.system("python3 ../object-detector/train-classifier.py -p {} -n {}".format(pos_feat_path, neg_feat_path))
 
 print("Time: "+str(time.time() - start_time))
 
