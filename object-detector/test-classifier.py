@@ -132,7 +132,7 @@ if __name__ == "__main__":
         if a =="y":
             for (x_tl, y_tl, _, w, h) in detections:
                 imCrop = im[y_tl:y_tl+h,x_tl:x_tl+w]
-                result=cv2.imsave(f"{pathLearn}img_{imageName[0]}_{x_tl}_{y_tl}_save_1.png",imCrop)
+                result=imsave(f"{pathLearn}img_{imageName[0]}_{x_tl}_{y_tl}_save_1.png",imCrop)
                 if result:
                     print("Result saved.")
                 else:
@@ -140,7 +140,7 @@ if __name__ == "__main__":
         if a=="bg":
             for (x_tl, y_tl, _, w, h) in detections:
                 imCrop = im[y_tl:y_tl+h,x_tl:x_tl+w]
-                result=cv2.imsave(f"{pathLearn}img_{imageName[0]}_{x_tl}_{y_tl}_save_2_bg.png",imCrop)
+                result=imsave(f"{pathLearn}img_{imageName[0]}_{x_tl}_{y_tl}_save_2_bg.png",imCrop)
                 if result:
                     print("Result saved.")
                 else:
