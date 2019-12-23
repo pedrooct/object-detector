@@ -48,6 +48,8 @@ if __name__ == "__main__":
     im = imread(args["image"],as_gray=True)
     min_wdw_sz = (100,250)
     step_size = (80,200)
+    #min_wdw_sz = (32,32)
+    #step_size = (64,64)
     downscale = args['downscale']
     visualize_det = args['visualize']
     timer = args["timer"]
@@ -138,7 +140,7 @@ if __name__ == "__main__":
         if a=="bg":
             for (x_tl, y_tl, _, w, h) in detections:
                 imCrop = im[y_tl:y_tl+h,x_tl:x_tl+w]
-                result=cv2.imsave(f"{pathLearn}img_{imageName[0]}_{x_tl}_{y_tl}_save_1_bg.png",imCrop)
+                result=cv2.imsave(f"{pathLearn}img_{imageName[0]}_{x_tl}_{y_tl}_save_2_bg.png",imCrop)
                 if result:
                     print("Result saved.")
                 else:

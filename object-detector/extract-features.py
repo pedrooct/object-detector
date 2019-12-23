@@ -22,7 +22,7 @@ if __name__ == "__main__":
 
     pos_im_path = args["pospath"]
     neg_im_path = args["negpath"]
-	
+
     des_type = args["descriptor"]
 
     # If feature directories don't exist, create them

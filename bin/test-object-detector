@@ -13,8 +13,8 @@ os.system("python3 ../object-detector/extract-features.py -p {} -n {}".format(po
 print("Time: "+str(time.time() - start_time))
 
 # Perform training
-pos_feat_path =  "../data/features/pos"
-neg_feat_path =  "../data/features/neg"
+pos_feat_path =  "../data/dataset/humanData/features/pos"
+neg_feat_path =  "../data/dataset/humanData/features/neg"
 os.system("python3 ../object-detector/train-classifier.py -p {} -n {}".format(pos_feat_path, neg_feat_path))
 
 print("Time: "+str(time.time() - start_time))
@@ -23,6 +23,6 @@ print("Time: "+str(time.time() - start_time))
 #test_im_path = "../data/dataset/CarData/TestImages/frame544.jpg"  img_frame544_256_320.png
 #test_im_path = "../data/dataset/CarData/TestImages/img_frame544_192_0.png"
 saveResults="../data/dataset/humanData/testPositiveSaveAuto/"
-for file in glob.glob("../data/dataset/humanData/Test_image/*.jpg"):
-	val=os.system("python3 ../object-detector/test-classifier.py -i {} --visualize -s 1 -t 3000 -l 2 -pl {}".format(file,saveResults))
+for file in glob.glob("../data/dataset/humanData/TestImages/*.jpg"):
+	val=os.system("python3 ../object-detector/test-classifier.py -i {} --visualize -s 1 -t 3000 -l 1 -pl {}".format(file,saveResults))
 print("Time: "+str(time.time() - start_time))
